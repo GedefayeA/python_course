@@ -5,4 +5,5 @@ echo .vscode/ >> .gitignore
 echo .idea/ >> .gitignore
 echo .DS_Store >> .gitignore
 echo MyTasks.csv >> .gitignore
-echo MyTasks.json >> .gitignore
+echo MyTasks.json >> .gitignore"MyTasks.json" 
+"MyTasks.csv" 
