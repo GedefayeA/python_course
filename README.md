@@ -1,5 +1,20 @@
-1. Adding Tasks: python cli_task_manager.py add "Update documentation" low 2026-04-15 (optional)
-2. List All Tasks: python cli_task_manager.py list
-3. Done the Task: python cli_task_manager.py complete id
-4. Delete the Task: python cli_task_manager.py delete id
-5. Export Tasks: python cli_task_manager.py export
+# 📝 Task Manager CLI
+A simple command-line task manager with priorities, deadlines, and CSV export.
+## 🚀 Quick Start
+# Add a task
+python cli_task_manager.py add "Finish Python course" high 2026-04-20
+# List all tasks
+python cli_task_manager.py list
+# Complete a task
+python cli_task_manager.py complete 1
+# Delete a task
+python cli_task_manager.py delete 1
+# Export to CSV
+python cli_task_manager.py export
+**📋 Commands**
+**Command**                               **Description**
+add "task" [priority] [deadline optional]         	Add new task
+list	                                    Show all tasks
+complete <id>	                            Mark task as done
+delete <id>	                              Remove task
+export	                                  Export to CSV
