@@ -1,0 +1,8 @@
+# Create .gitignore to exclude unnecessary files
+echo __pycache__/ > .gitignore
+echo *.pyc >> .gitignore
+echo .vscode/ >> .gitignore
+echo .idea/ >> .gitignore
+echo .DS_Store >> .gitignore
+echo MyTasks.csv >> .gitignore
+echo MyTasks.json >> .gitignore

@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "description": "Finish Python course",
+    "priority": "high",
+    "created": "2026-03-27 09:59:00",
+    "deadline": "2026-04-20",
+    "completed": true
+  },
+  {
+    "id": 2,
+    "description": "Submit your project on time",
+    "priority": "high",
+    "created": "2026-03-27 09:59:54",
+    "deadline": "2026-03-27",
+    "completed": false
+  },
+  {
+    "id": 3,
+    "description": "Schedule team meeting",
+    "priority": "medium",
+    "created": "2026-03-27 10:01:39",
+    "deadline": "2026-03-28",
+    "completed": false
+  },
+  {
+    "id": 4,
+    "description": "Prepare Q3 report",
+    "priority": "low",
+    "created": "2026-03-27 10:08:50",
+    "deadline": "2026-04-15",
+    "completed": false
+  }
+]
