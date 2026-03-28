@@ -3,11 +3,39 @@ from datetime import datetime
 
 class Task:
     def __init__(self):
-        self.f = "MyTasks.json"
-        self.MyTasks = json.load(open(self.f)) if os.path.exists(self.f) else []
+        self.f = "MyTasks.txt"
+        self.MyTasks = self.load_tasks()
+
+    def load_tasks(self):
+        """Load tasks from plain text file"""
+        tasks = []
+        if os.path.exists(self.f):
+            try:
+                with open(self.f, "r") as file:
+                    for line in file:
+                        if line.strip():
+                            # Parse each line: id|description|priority|created|deadline|completed
+                            parts = line.strip().split("|")
+                            if len(parts) == 6:
+                                tasks.append({
+                                    "id": int(parts[0]),
+                                    "description": parts[1],
+                                    "priority": parts[2],
+                                    "created": parts[3],
+                                    "deadline": parts[4] if parts[4] != "None" else None,
+                                    "completed": parts[5] == "True"
+                                })
+            except:
+                pass
+        return tasks
 
     def save(self):
-        json.dump(self.MyTasks, open(self.f, "w"), indent=2)
+        """Save tasks to plain text file"""
+        with open(self.f, "w") as file:
+            for t in self.MyTasks:
+                # Format: id|description|priority|created|deadline|completed
+                line = f"{t['id']}|{t['description']}|{t['priority']}|{t['created']}|{t.get('deadline', 'None')}|{t['completed']}\n"
+                file.write(line)
 
     def add(self, d, p="medium", dl=None):
         try: 
@@ -15,8 +43,10 @@ class Task:
         except: 
             dl = None
         
+        new_id = max([t["id"] for t in self.MyTasks], default=0) + 1
+        
         self.MyTasks.append({
-            "id": max([t["id"] for t in self.MyTasks], default=0)+1,
+            "id": new_id,
             "description": d, 
             "priority": p, 
             "created": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -58,15 +88,36 @@ class Task:
         self.save()
         print(f"🗑️ Task {i} deleted")
 
-    def export(self):
+    def export_json(self):
+        """Export tasks to JSON file"""
         if not self.MyTasks:
             print("No tasks to export")
             return
-        with open("MyTasks.csv","w",newline="") as f:
+        filename = f"tasks_export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        with open(filename, "w") as f:
+            json.dump(self.MyTasks, f, indent=2)
+        print(f"📁 Exported {len(self.MyTasks)} tasks to {filename}")
+
+    def export_csv(self):
+        """Export tasks to CSV file"""
+        if not self.MyTasks:
+            print("No tasks to export")
+            return
+        filename = f"tasks_export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        with open(filename, "w", newline="") as f:
             w = csv.DictWriter(f, fieldnames=self.MyTasks[0].keys())
             w.writeheader()
             w.writerows(self.MyTasks)
-        print(f"📁 Exported {len(self.MyTasks)} tasks to MyTasks.csv")
+        print(f"📁 Exported {len(self.MyTasks)} tasks to {filename}")
+
+    def export(self, format="csv"):
+        """Main export method - supports csv or json"""
+        if format.lower() == "json":
+            self.export_json()
+        elif format.lower() == "csv":
+            self.export_csv()
+        else:
+            print("❌ Invalid format. Use 'csv' or 'json'")
 
 # -------- CLI --------
 t = Task()
@@ -80,7 +131,13 @@ elif c=="completed":
     t.completed(int(sys.argv[2]))
 elif c=="delete": 
     t.delete(int(sys.argv[2]))
-elif c=="export": 
-    t.export()
+elif c=="export":
+    format_type = sys.argv[2] if len(sys.argv)>2 else "csv"
+    t.export(format_type)
 else: 
-    print("Commands: add 'task' [priority] [deadline] | list | completed <id> | delete <id> | export")
+    print("Commands:")
+    print("  add 'task' [priority] [deadline]  - Add new task")
+    print("  list                              - Show all tasks")
+    print("  completed <id>                    - Mark task as done")
+    print("  delete <id>                       - Remove task")
+    print("  export [csv|json]                 - Export tasks (default: csv)")
