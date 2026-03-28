@@ -1,15 +1,21 @@
 import json, sys, os, csv
 from datetime import datetime
-
+# json → used to export tasks into JSON format
+# sys → used to read command-line arguments
+# os → checks if file exists
+# csv → export tasks to CSV
+# datetime → handle dates (created time, deadline)
+    #Class Definition
+    # This class manages all task operations
 class Task:
     def __init__(self):
         self.f = "MyTasks.txt"
         self.MyTasks = self.load_tasks()
 
-    def load_tasks(self):
+    def load_tasks(self): # Function to read tasks from text file
         """Load tasks from plain text file"""
         tasks = []
-        if os.path.exists(self.f):
+        if os.path.exists(self.f): # Check if file exists
             try:
                 with open(self.f, "r") as file:
                     for line in file:
@@ -105,6 +111,7 @@ class Task:
             return
         filename = f"tasks_export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
         with open(filename, "w", newline="") as f:
+            # Use dictionary keys as headers
             w = csv.DictWriter(f, fieldnames=self.MyTasks[0].keys())
             w.writeheader()
             w.writerows(self.MyTasks)
@@ -120,8 +127,8 @@ class Task:
             print("❌ Invalid format. Use 'csv' or 'json'")
 
 # -------- CLI --------
-t = Task()
-c = sys.argv[1] if len(sys.argv)>1 else ""
+t = Task() # Create object
+c = sys.argv[1] if len(sys.argv)>1 else "" # Read command
 
 if c=="add": 
     t.add(sys.argv[2], sys.argv[3] if len(sys.argv)>3 else "medium", sys.argv[4] if len(sys.argv)>4 else None)
@@ -134,8 +141,8 @@ elif c=="delete":
 elif c=="export":
     format_type = sys.argv[2] if len(sys.argv)>2 else "csv"
     t.export(format_type)
-else: 
-    print("Commands:")
+else:  # Show help menu
+    print("Help Commands:")
     print("  add 'task' [priority] [deadline]  - Add new task")
     print("  list                              - Show all tasks")
     print("  completed <id>                    - Mark task as done")
