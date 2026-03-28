@@ -1,6 +1,0 @@
-id,description,priority,created,deadline,completed
-1,Read book,low,2026-03-28 08:40:35,,False
-2,Finish Python course,high,2026-03-28 08:42:18,2026-05-29,False
-3,Submit your project,high,2026-03-28 08:42:59,2026-03-28,True
-4,Prepare Q3 report,low,2026-03-28 08:43:45,2026-06-20,False
-5,Schedule team meeting,medium,2026-03-28 08:50:14,2026-03-29,False
